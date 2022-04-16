@@ -284,12 +284,13 @@ app.get('/users', (req,res)=> {
 
 app.post('/users', async (req, res) => {
 	try {
-	  const hashedPassword = await bcrypt.hash(req.body.password, 10)
-	  const user = { name: req.body.name, password: hashedPassword }
+	  const password: string = req.body.password
+	  const name: string = req.body.name
+	  const user = { name: name, password: password }
 	  users.push(user)
-	  res.status(200).send()
+	  res.status(200).send('works')
 	} catch {
-	  res.status(401).send()
+	  res.status(401).send('doesnt')
 	}
   })
   
@@ -299,15 +300,15 @@ app.post('/users', async (req, res) => {
 	  return res.status(400).send('Cannot find user')
 	}
 	try {
-	  if(await bcrypt.compare(req.body.password, user.password)) {
+	  if(req.body.password == user.password) {
 		res.status(200).send('Success')
 	  } else {
 		res.status(401).send('Not Allowed')
 	  }
 	} catch {
-	  res.status(401).send()
+	  res.status(401).send('no success')
 	}
   })
-  app.listen(10 , () => {
+  app.listen(3000 , () => {
 	  console.log("running server...")
   });

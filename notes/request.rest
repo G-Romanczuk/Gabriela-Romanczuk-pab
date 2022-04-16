@@ -1,18 +1,19 @@
-GET http://localhost:10/users
+GET http://localhost:3000/users
 
 ###
 
-POST http://localhost:10/users Content-Type: application/typescript
+POST http://localhost:3000/users 
 
 
 {
-"name": "Kyle", "password": "password"
+"name": "logintest", 
+"password": "passwordtest"
 }
 
 ###
 
-POST http://localhost:10/users/login Content-Type: application/json
+POST http://localhost:3000/login 
 
 {
-"name": "Kyle", "password": "password"
+"name": "logintest", "password": "passwordtest"
 }
