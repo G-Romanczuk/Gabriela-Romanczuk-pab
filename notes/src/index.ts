@@ -7,6 +7,8 @@ import fs from 'fs'
 import jwt from 'jsonwebtoken'
 import { sign } from 'jsonwebtoken';
 
+const bcrypt = require('bcrypt')
+
 const app = express()
 app.use(express.json())
 
@@ -280,13 +282,32 @@ app.get('/users', (req,res)=> {
 	res.json(users)
 })
 
-app.post('/users', (req,res)=> {
-	const user = { name: req.body.name, password: req.body.password}
-	users.push(user)
-	res.status(201).send()
-})
-
-
-  app.listen(4000 , () => {
+app.post('/users', async (req, res) => {
+	try {
+	  const hashedPassword = await bcrypt.hash(req.body.password, 10)
+	  const user = { name: req.body.name, password: hashedPassword }
+	  users.push(user)
+	  res.status(200).send()
+	} catch {
+	  res.status(401).send()
+	}
+  })
+  
+  app.post('/login', async (req, res) => {
+	const user = users.find(user => user.name === req.body.name)
+	if (user == null) {
+	  return res.status(400).send('Cannot find user')
+	}
+	try {
+	  if(await bcrypt.compare(req.body.password, user.password)) {
+		res.status(200).send('Success')
+	  } else {
+		res.status(401).send('Not Allowed')
+	  }
+	} catch {
+	  res.status(401).send()
+	}
+  })
+  app.listen(10 , () => {
 	  console.log("running server...")
   });
