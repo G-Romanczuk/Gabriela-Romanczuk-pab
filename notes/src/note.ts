@@ -6,14 +6,16 @@ export class Note {
 	createDate: string
 	tags: Tag[]
 	id: number
-	owner: string
+	user: string
+	pub: boolean
 
-	constructor(title: string, content: string) {
+	constructor(title: string, content: string, user: string, pub: boolean ) {
 		this.title = title
 		this.content = content
 		this.createDate = new Date().toISOString()
 		this.id = Date.now()
 		this.tags = []
-		this.owner = ""
+		this.user = user
+		this.pub = pub
 	}
 }

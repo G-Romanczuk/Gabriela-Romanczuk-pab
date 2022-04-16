@@ -1,13 +1,12 @@
-import express from 'express'  //dodaje express
+import express, { NextFunction } from 'express'  //dodaje express
 import {Request, Response} from 'express'  //dodaje express
 import { Note } from './note'  //dodaje model notatki
 import { Tag } from './tags'  //dodaje model tagu
 import { Login } from './login'
 import fs from 'fs'
-import jwt from 'jsonwebtoken'
-import { sign } from 'jsonwebtoken';
 
-const bcrypt = require('bcrypt')
+require('dotenv').config()
+const jwt = require('jsonwebtoken')
 
 const app = express()
 app.use(express.json())
@@ -50,13 +49,15 @@ app.post('/note', async function (req: Request, res: Response) {  // metoda post
 			const title = req.body.tite
 			const content = req.body.content
 			const tagsNames = req.body.tags?.split(',')
+			const user = req.body.user
+			const pub = req.body.pub
 
 			if (title == null && content == null) { // gdy brakuje tytułu i zawartości, wyświetl błąd 400 i wiad
 				res.status(400).send('Uzupełnij tytuł i zawratość.')
 				return
 			}
 
-			const note = new Note(title, content)
+			const note = new Note(title, content,user, pub)
 			let noteTags: Tag[] = []
 
 			if (tagsNames?.length > 0) { //jeżeli nazwa tagu jest >0
@@ -81,7 +82,7 @@ app.post('/note', async function (req: Request, res: Response) {  // metoda post
 })
 
 // Odczytanie notatki
-app.get('/note/:id', async function (req: Request, res: Response) { //metoda get
+app.get('/note/:id',authenticateToken, async function (req: Request, res: Response) { //metoda get
 	console.log('Pobranie notatki..') 
 	console.log(req.headers.authorization)
 	console.log(req.body)
@@ -90,7 +91,9 @@ app.get('/note/:id', async function (req: Request, res: Response) { //metoda get
 		const notes: Note[] = notesData
 		const note = notes.find(x => x.id == id)  // znajduje id
 		if (note == null) res.status(404).send('Nie odnaleziono notatki z podanym ID.')
-		else res.status(200).send(note)
+		else {
+			res.status(200).send(note)
+		}
 	})
 })
 
@@ -166,6 +169,19 @@ app.get('/notes', async function (req: Request, res: Response) { // wyświetla t
 	await readStorage('data/notes.json').then(async notesData => {
 		const notes: Note[] = notesData
 		if (notes.length > 0) res.status(200).send(notes)
+		else res.status(404).send('Nie ma żadnych notatek.')
+	})
+})
+
+//pobranie wszystkich notatek użytkownika
+app.get('/notes/user/:user',authenticateToken, async function (req: Request, res: Response) { // wyświetla tabele z notatkami
+	console.log('Pobieram liste notatek użytkownika..')
+	console.log(req.headers.authorization)
+	console.log(req.body)
+	await readStorage('data/notes.json').then(async notesData => {
+		const notes: Note[] = notesData
+		const note = notes.filter(x => x.user == req.params.user)
+		if (note.length > 0) res.status(200).send(notes)
 		else res.status(404).send('Nie ma żadnych notatek.')
 	})
 })
@@ -301,7 +317,9 @@ app.post('/users', async (req, res) => {
 	}
 	try {
 	  if(req.body.password == user.password) {
-		res.status(200).send('Success')
+		const accessToken: string = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET)
+		res.status(200).send('Success token:  ' + accessToken)		
+		
 	  } else {
 		res.status(401).send('Not Allowed')
 	  }
@@ -309,6 +327,34 @@ app.post('/users', async (req, res) => {
 	  res.status(401).send('no success')
 	}
   })
+
+function authenticateToken(req: Request, res: Response, next: NextFunction) 
+{
+	const pub = req.body.pub
+	if(pub == true) next
+	else
+	{
+	
+	const authHeader = req.headers['authorization']
+	const token = authHeader && authHeader.split(' ')[1]
+	if (token == null) return res.sendStatus(401)
+
+  
+		jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err: Error, user: Object) => {
+	  		console.log(err)
+			 if (err) return res.sendStatus(403)
+	
+			readStorage('data/notes.json').then(async notesData => { //zczytuje zawartość
+			const notes: Note[] = notesData
+			const note = notes.find(x => x.user == user)
+			})
+
+		})
+	}
+}
+  //#endregion
+
+
   app.listen(3000 , () => {
 	  console.log("running server...")
   });
