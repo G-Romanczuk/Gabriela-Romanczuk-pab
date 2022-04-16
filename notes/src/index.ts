@@ -294,11 +294,11 @@ app.get('/tags', async function (req: Request, res: Response) {
 
 const users: { name: string; password: string }[] = []
 
-app.get('/users', (req,res)=> {
+app.get('/users', (req,res)=> { //wyświetla użytkowników
 	res.json(users)
 })
 
-app.post('/users', async (req, res) => {
+app.post('/users', async (req, res) => { // rejestracja użytkownika
 	try {
 	  const password: string = req.body.password
 	  const name: string = req.body.name
@@ -310,7 +310,7 @@ app.post('/users', async (req, res) => {
 	}
   })
   
-  app.post('/login', async (req, res) => {
+  app.post('/login', async (req, res) => { //logowanie użytkownika, zwraca token po sukcesie
 	const user = users.find(user => user.name === req.body.name)
 	if (user == null) {
 	  return res.status(400).send('Cannot find user')
@@ -331,15 +331,15 @@ app.post('/users', async (req, res) => {
 function authenticateToken(req: Request, res: Response, next: NextFunction) 
 {
 	const pub = req.body.pub
-	if(pub == true) next
+	if(pub == true) next  //jeżeli notatka jest publiczna, nie musimy nic robić
 	else
 	{
-	
-	const authHeader = req.headers['authorization']
+	//zczytaj token
+	const authHeader = req.headers['authorization'] 
 	const token = authHeader && authHeader.split(' ')[1]
 	if (token == null) return res.sendStatus(401)
 
-  
+  //sprawdź token
 		jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err: Error, user: Object) => {
 	  		console.log(err)
 			 if (err) return res.sendStatus(403)
@@ -347,6 +347,7 @@ function authenticateToken(req: Request, res: Response, next: NextFunction)
 			readStorage('data/notes.json').then(async notesData => { //zczytuje zawartość
 			const notes: Note[] = notesData
 			const note = notes.find(x => x.user == user)
+			return note;  //zwraca notatki użytkownika
 			})
 
 		})
@@ -354,6 +355,7 @@ function authenticateToken(req: Request, res: Response, next: NextFunction)
 }
   //#endregion
 
+  //Refaktoryzacja zanim się znowu tego czepisz!
 
   app.listen(3000 , () => {
 	  console.log("running server...")
