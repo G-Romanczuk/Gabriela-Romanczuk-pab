@@ -1,4 +1,4 @@
-import { Tag } from './tags'
+import { Tag } from './tag'
 
 export class Note {
 	title: string

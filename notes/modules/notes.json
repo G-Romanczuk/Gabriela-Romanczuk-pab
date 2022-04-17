@@ -1,0 +1,35 @@
+[
+    {
+      "title": "Ntest1",
+      "content": "Treść test",
+      "createDate": "2022-03-24T00:37:04.225Z",
+      "tags": [
+        {
+          "id": 1,
+          "name": "TagTest1"
+        },
+        {
+          "id": 2,
+          "name": "TagTest2"
+        }
+      ],
+      "id": 1,
+      "user": "logintest",
+      "pub": true
+    },
+    {
+      "title": "Ntest2",
+      "content": "Treść test2",
+      "createDate": "2021-03-24T00:37:04.225Z",
+      "tags": [
+        
+        {
+          "id": 2,
+          "name": "TagTest2"
+        }
+      ],
+      "id": 1,
+      "user": "logintest",
+      "pub": false
+    }
+  ]
