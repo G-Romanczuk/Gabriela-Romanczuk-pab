@@ -1,29 +1,29 @@
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Document, Schema, ObjectId } from "mongoose";
 export interface IRestauracja {
-  name: string;
-  address: string;
-  telNumber: string;
-  nip: string;
-  email: string;
-  www: string;
+  Name: string;
+  Address: string;
+  TelNumber: string;
+  NIP: string;
+  Email: string;
+  WWW: string;
 }
 
 //#region schema
-export interface IRestauracjaModel extends IRestauracja, Document {}
+// export interface IRestauracjaModel extends IRestauracja, Document {}
 
-const RestauracjaSchema: Schema = new Schema(
+const RestauracjaSchema = new Schema<IRestauracja>(
   {
-    name: {
+    Name: {
       type: String,
       required: true,
       maxlength: 254,
     },
-    address: {
+    Address: {
       type: String,
       required: true,
       maxlength: 254,
     },
-    telNumber: {
+    TelNumber: {
       type: String,
       required: false,
       maxlength: 15,
@@ -32,17 +32,17 @@ const RestauracjaSchema: Schema = new Schema(
           throw new Error("Podano nieprawidłowy numer telefonu!");
       },
     },
-    nip: {
+    NIP: {
       type: String,
       required: true,
-      unique: true,
-      maxlength: 11,
-      validate(value: string) {
-        if (!validateNip(value))
-          throw new Error("Podano nieprawidłowy numer NIP!");
-      },
+      // unique: true,
+      maxlength: 13,
+      // validate(value: string) {
+      //   if (!validateNip(value))
+      //     throw new Error("Podano nieprawidłowy numer NIP!");
+      // },
     },
-    email: {
+    Email: {
       type: String,
       required: false,
       maxlength: 60,
@@ -51,7 +51,7 @@ const RestauracjaSchema: Schema = new Schema(
           throw new Error("Podano nieprawidłowy email!");
       },
     },
-    www: {
+    WWW: {
       type: String,
       required: false,
       maxlength: 254,
@@ -70,21 +70,21 @@ function validateNumber(telNumber: string) {
   return phoneRegex.test(telNumber);
 }
 
-function validateNip(nip: string) {
-  if (typeof nip !== "string") return false;
+// function validateNip(nip: string) {
+//   if (typeof nip !== "string") return false;
 
-  nip = nip.replace(/[\ \-]/gi, "");
+//   nip = nip.replace(/[\ \-]/gi, "");
 
-  let weight = [6, 5, 7, 2, 3, 4, 5, 6, 7];
-  let sum = 0;
-  let controlNumber = parseInt(nip.substring(9, 10));
-  let weightCount = weight.length;
-  for (let i = 0; i < weightCount; i++) {
-    sum += parseInt(nip.substring(i, 1)) * weight[i];
-  }
+//   let weight = [6, 5, 7, 2, 3, 4, 5, 6, 7];
+//   let sum = 0;
+//   let controlNumber = parseInt(nip.substring(9, 10));
+//   let weightCount = weight.length;
+//   for (let i = 0; i < weightCount; i++) {
+//     sum += parseInt(nip.substring(i, 1)) * weight[i];
+//   }
 
-  return sum % 11 === controlNumber;
-}
+//   return sum % 11 === controlNumber;
+// }
 
 function validateEmail(email: string) {
   if (!email) return false;
@@ -95,7 +95,7 @@ function validateEmail(email: string) {
   return emailRegex.test(email);
 }
 //#endregion
-export default mongoose.model<IRestauracjaModel>(
+export const RestauracjaModel = mongoose.model<IRestauracja>(
   "Restauracja",
   RestauracjaSchema
 );
