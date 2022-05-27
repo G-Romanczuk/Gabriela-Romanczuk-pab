@@ -1,11 +1,11 @@
 import mongoose, { Document, Schema } from "mongoose";
 export interface IRestauracja {
-  Name: string;
-  Address: string;
-  TelNumber: string;
-  NIP: string;
-  Email: string;
-  WWW: string;
+  name: string;
+  address: string;
+  telNumber: string;
+  nip: string;
+  email: string;
+  www: string;
 }
 
 //#region schema
@@ -13,17 +13,17 @@ export interface IRestauracjaModel extends IRestauracja, Document {}
 
 const RestauracjaSchema: Schema = new Schema(
   {
-    Name: {
+    name: {
       type: String,
       required: true,
       maxlength: 254,
     },
-    Address: {
+    address: {
       type: String,
       required: true,
       maxlength: 254,
     },
-    TelNumber: {
+    telNumber: {
       type: String,
       required: false,
       maxlength: 15,
@@ -32,7 +32,7 @@ const RestauracjaSchema: Schema = new Schema(
           throw new Error("Podano nieprawidłowy numer telefonu!");
       },
     },
-    NIP: {
+    nip: {
       type: String,
       required: true,
       unique: true,
@@ -42,7 +42,7 @@ const RestauracjaSchema: Schema = new Schema(
           throw new Error("Podano nieprawidłowy numer NIP!");
       },
     },
-    Email: {
+    email: {
       type: String,
       required: false,
       maxlength: 60,
@@ -51,7 +51,7 @@ const RestauracjaSchema: Schema = new Schema(
           throw new Error("Podano nieprawidłowy email!");
       },
     },
-    WWW: {
+    www: {
       type: String,
       required: false,
       maxlength: 254,
@@ -80,7 +80,7 @@ function validateNip(nip: string) {
   let controlNumber = parseInt(nip.substring(9, 10));
   let weightCount = weight.length;
   for (let i = 0; i < weightCount; i++) {
-    sum += parseInt(nip.substr(i, 1)) * weight[i];
+    sum += parseInt(nip.substring(i, 1)) * weight[i];
   }
 
   return sum % 11 === controlNumber;

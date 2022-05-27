@@ -1,0 +1,7 @@
+create 
+
+http://localhost:13258/restauracja/create/
+Body (raw,JSON)
+{
+    "name"
+}

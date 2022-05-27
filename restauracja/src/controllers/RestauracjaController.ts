@@ -3,17 +3,17 @@ import mongoose from "mongoose";
 import Restauracja from "../models/RestauracjaModel";
 
 const createRestauracja = (req: Request, res: Response, next: NextFunction) => {
-  const { name } = req.body;
-  const { adress } = req.body;
-  const { telNumber } = req.body;
-  const { nip } = req.body;
-  const { email } = req.body;
-  const { www } = req.body;
+  const { name } = req.body.name;
+  const { address } = req.body.address;
+  const { telNumber } = req.body.telNumber;
+  const { nip } = req.body.nip;
+  const { email } = req.body.email;
+  const { www } = req.body.www;
 
   const restauracja = new Restauracja({
     _id: new mongoose.Types.ObjectId(),
     name,
-    adress,
+    address,
     telNumber,
     nip,
     email,
