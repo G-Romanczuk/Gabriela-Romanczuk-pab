@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema, ObjectId } from "mongoose";
+import mongoose, { Document, Schema } from "mongoose";
 export interface IRestauracja {
   Name: string;
   Address: string;
@@ -9,7 +9,7 @@ export interface IRestauracja {
 }
 
 //#region schema
-// export interface IRestauracjaModel extends IRestauracja, Document {}
+export interface IRestauracjaModel extends IRestauracja, Document {}
 
 const RestauracjaSchema = new Schema<IRestauracja>(
   {
@@ -35,12 +35,7 @@ const RestauracjaSchema = new Schema<IRestauracja>(
     NIP: {
       type: String,
       required: true,
-      // unique: true,
       maxlength: 13,
-      // validate(value: string) {
-      //   if (!validateNip(value))
-      //     throw new Error("Podano nieprawidłowy numer NIP!");
-      // },
     },
     Email: {
       type: String,
@@ -59,7 +54,7 @@ const RestauracjaSchema = new Schema<IRestauracja>(
   },
   {
     versionKey: false,
-    timestamps: true,
+    timestamps: false,
   }
 );
 //#endregion
@@ -70,22 +65,6 @@ function validateNumber(telNumber: string) {
   return phoneRegex.test(telNumber);
 }
 
-// function validateNip(nip: string) {
-//   if (typeof nip !== "string") return false;
-
-//   nip = nip.replace(/[\ \-]/gi, "");
-
-//   let weight = [6, 5, 7, 2, 3, 4, 5, 6, 7];
-//   let sum = 0;
-//   let controlNumber = parseInt(nip.substring(9, 10));
-//   let weightCount = weight.length;
-//   for (let i = 0; i < weightCount; i++) {
-//     sum += parseInt(nip.substring(i, 1)) * weight[i];
-//   }
-
-//   return sum % 11 === controlNumber;
-// }
-
 function validateEmail(email: string) {
   if (!email) return false;
 
@@ -95,7 +74,7 @@ function validateEmail(email: string) {
   return emailRegex.test(email);
 }
 //#endregion
-export const RestauracjaModel = mongoose.model<IRestauracja>(
+export const restauracjaModel = mongoose.model<IRestauracja>(
   "Restauracja",
   RestauracjaSchema
 );
