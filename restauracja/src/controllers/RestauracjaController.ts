@@ -11,6 +11,7 @@ const createRestauracja = (req: Request, res: Response, next: NextFunction) => {
   const www = req.body.WWW;
 
   const restauracja = new restauracjaModel({
+    _id: new mongoose.Types.ObjectId(),
     Name: name,
     Address: address,
     TelNumber: telNumber,
