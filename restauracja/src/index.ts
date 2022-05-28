@@ -46,12 +46,15 @@ const StartServer = () => {
   const danieRoutes = require("./routes/DanieRoutes");
   const produktRoutes = require("./routes/ProduktRoutes");
   const rezerwacjaRoutes = require("./routes/RezerwacjaRoutes");
+  const zamowienieRoutes = require("./routes/ZamowienieRoutes");
+
   app.use("/restauracja", restauracjaRoutes);
   app.use("/pracownik", pracownikRoutes);
   app.use("/stolik", stolikRoutes);
   app.use("/danie", danieRoutes);
   app.use("/produkt", produktRoutes);
   app.use("/rezerwacja", rezerwacjaRoutes);
+  app.use("/zamowienie", zamowienieRoutes);
 
   /** Healthcheck */
   app.get("/", (req, res, next) => res.status(200).json({ hello: "world" }));

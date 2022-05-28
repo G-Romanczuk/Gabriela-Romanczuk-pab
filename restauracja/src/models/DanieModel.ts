@@ -22,7 +22,7 @@ const DanieSchema = new Schema<IDanie>(
     Category: {
       type: String,
       required: true,
-      maxlength: 254,
+      enum: ["Pizza", "Burger"],
     },
   },
   {

@@ -7,6 +7,7 @@ import { IStolik } from "../models/StolikModel";
 import { IRezerwacja } from "../models/RezerwacjaModel";
 import { IDanie } from "../models/DanieModel";
 import { IProdukt } from "../models/ProduktModel";
+import { IZamowienie } from "../models/ZamowienieModel";
 
 export const ValidateJoi = (schema: ObjectSchema) => {
   return async (req: Request, res: Response, next: NextFunction) => {
@@ -103,6 +104,22 @@ export const Schemas = {
       Price: Joi.number().required(),
       Quantity: Joi.number().required(),
       Measure: Joi.string().required(),
+    }),
+  },
+  zamowienie: {
+    create: Joi.object<IZamowienie>({
+      Employee: Joi.string().required(),
+      Meal: Joi.string().required(),
+      Status: Joi.string().required(),
+      Table: Joi.string().required(),
+      Price: Joi.number().required(),
+    }),
+    update: Joi.object<IZamowienie>({
+      Employee: Joi.string().required(),
+      Meal: Joi.string().required(),
+      Status: Joi.string().required(),
+      Table: Joi.string().required(),
+      Price: Joi.number().required(),
     }),
   },
 };
