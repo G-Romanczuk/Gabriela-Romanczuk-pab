@@ -82,13 +82,13 @@ export const Schemas = {
   danie: {
     create: Joi.object<IDanie>({
       Name: Joi.string().required(),
-      Price: Joi.date().required(),
-      Category: Joi.date().required(),
+      Price: Joi.number().required(),
+      Category: Joi.string().required(),
     }),
     update: Joi.object<IDanie>({
       Name: Joi.string().required(),
-      Price: Joi.date().required(),
-      Category: Joi.date().required(),
+      Price: Joi.number().required(),
+      Category: Joi.string().required(),
     }),
   },
   produkt: {
