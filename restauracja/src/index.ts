@@ -41,7 +41,9 @@ const StartServer = () => {
 
   /** Routes */
   const restauracjaRoutes = require("./routes/RestauracjaRoutes");
+  const pracownikRoutes = require("./routes/PracownikRoutes");
   app.use("/restauracja", restauracjaRoutes);
+  app.use("/pracownik", pracownikRoutes);
   //   app.use("/books", bookRoutes);
 
   /** Healthcheck */

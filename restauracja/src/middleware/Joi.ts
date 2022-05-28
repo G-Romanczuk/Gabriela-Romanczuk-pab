@@ -2,6 +2,7 @@ import Joi, { ObjectSchema } from "joi";
 import { NextFunction, Request, Response } from "express";
 import { IRestauracja } from "../models/RestauracjaModel";
 import Logging from "../library/Logging";
+import { IPracownik } from "../models/PracownikModel";
 
 export const ValidateJoi = (schema: ObjectSchema) => {
   return async (req: Request, res: Response, next: NextFunction) => {
@@ -36,18 +37,16 @@ export const Schemas = {
       WWW: Joi.string().required(),
     }),
   },
-  //   book: {
-  //     create: Joi.object<IBook>({
-  //       author: Joi.string()
-  //         .regex(/^[0-9a-fA-F]{24}$/)
-  //         .required(),
-  //       title: Joi.string().required(),
-  //     }),
-  //     update: Joi.object<IBook>({
-  //       author: Joi.string()
-  //         .regex(/^[0-9a-fA-F]{24}$/)
-  //         .required(),
-  //       title: Joi.string().required(),
-  //     }),
-  //   },
+  pracownik: {
+    create: Joi.object<IPracownik>({
+      Name: Joi.string().required(),
+      Surname: Joi.string().required(),
+      Position: Joi.string().required(),
+    }),
+    update: Joi.object<IPracownik>({
+      Name: Joi.string().required(),
+      Surname: Joi.string().required(),
+      Position: Joi.string().required(),
+    }),
+  },
 };

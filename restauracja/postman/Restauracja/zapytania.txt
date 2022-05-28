@@ -2,6 +2,28 @@ create
 
 http://localhost:13258/restauracja/create/
 Body (raw,JSON)
-{
-    "name"
-}
+
+        {
+            "Name": "Restauracja1",
+            "Address": "Adres1",
+            "TelNumber": "123454689",
+            "NIP": "123-456-78-90",
+            "Email": "Restauracja1@email.com",
+            "WWW": "Restauracja1.com"
+        },
+        {
+            "Name": "Restauracja2",
+            "Address": "Adres2",
+            "TelNumber": "987654321",
+            "NIP": "123-456-78-99",
+            "Email": "Restauracja2@email.com",
+            "WWW": "Restauracja2.com"
+        },
+        {
+            "Name": "Restauracja3",
+            "Address": "Adres3",
+            "TelNumber": "123454569",
+            "NIP": "123-456-78-45",
+            "Email": "Restauracja3@email.com",
+            "WWW": "Restauracja3.com"
+        }
