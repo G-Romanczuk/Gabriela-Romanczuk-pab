@@ -42,9 +42,10 @@ const StartServer = () => {
   /** Routes */
   const restauracjaRoutes = require("./routes/RestauracjaRoutes");
   const pracownikRoutes = require("./routes/PracownikRoutes");
+  const stolikRoutes = require("./routes/StolikRoutes");
   app.use("/restauracja", restauracjaRoutes);
   app.use("/pracownik", pracownikRoutes);
-  //   app.use("/books", bookRoutes);
+  app.use("/stolik", stolikRoutes);
 
   /** Healthcheck */
   app.get("/", (req, res, next) => res.status(200).json({ hello: "world" }));
