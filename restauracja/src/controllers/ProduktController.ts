@@ -42,6 +42,76 @@ const readAll = (req: Request, res: Response, next: NextFunction) => {
     .catch((error) => res.status(500).json({ error }));
 };
 
+const sort = (req: Request, res: Response, next: NextFunction) => {
+  const sortby = req.params.sortby;
+  const sort = req.params.sort;
+
+  switch (sort.toLocaleLowerCase()) {
+    default:
+    case "desc":
+      switch (sortby.toLocaleLowerCase()) {
+        case "name":
+          return produktModel
+            .find()
+            .sort({ Name: -1 })
+            .then((produkts) => res.status(200).json({ produkts }))
+            .catch((error) => res.status(500).json({ error }));
+        case "price":
+          return produktModel
+            .find()
+            .sort({ Price: -1 })
+            .then((produkts) => res.status(200).json({ produkts }))
+            .catch((error) => res.status(500).json({ error }));
+        case "quantity":
+          return produktModel
+            .find()
+            .sort({ Quantity: -1 })
+            .then((produkts) => res.status(200).json({ produkts }))
+            .catch((error) => res.status(500).json({ error }));
+        case "measure":
+          return produktModel
+            .find()
+            .sort({ Measure: -1 })
+            .then((produkts) => res.status(200).json({ produkts }))
+            .catch((error) => res.status(500).json({ error }));
+      }
+    case "asc": {
+      switch (sortby.toLocaleLowerCase()) {
+        case "name":
+          return produktModel
+            .find()
+            .sort({ Name: 1 })
+            .then((produkts) => res.status(200).json({ produkts }))
+            .catch((error) => res.status(500).json({ error }));
+        case "price":
+          return produktModel
+            .find()
+            .sort({ Price: 1 })
+            .then((produkts) => res.status(200).json({ produkts }))
+            .catch((error) => res.status(500).json({ error }));
+        case "quantity":
+          return produktModel
+            .find()
+            .sort({ Quantity: 1 })
+            .then((produkts) => res.status(200).json({ produkts }))
+            .catch((error) => res.status(500).json({ error }));
+        case "measure":
+          return produktModel
+            .find()
+            .sort({ Measure: 1 })
+            .then((produkts) => res.status(200).json({ produkts }))
+            .catch((error) => res.status(500).json({ error }));
+      }
+    }
+  }
+
+  return produktModel
+    .find()
+    .sort({ Name: 1 })
+    .then((produkts) => res.status(200).json({ produkts }))
+    .catch((error) => res.status(500).json({ error }));
+};
+
 const updateProdukt = (req: Request, res: Response, next: NextFunction) => {
   const produktId = req.params.produktId;
 
@@ -79,6 +149,7 @@ export default {
   createProdukt,
   readProdukt,
   readAll,
+  sort,
   updateProdukt,
   deleteProdukt,
 };

@@ -11,6 +11,7 @@ produktRoutes
   )
   .get("/get/:produktId", controller.readProdukt)
   .get("/get", controller.readAll)
+  .get("/sort/:sort/:sortby", controller.sort)
   .patch(
     "/update/:produktId",
     ValidateJoi(Schemas.produkt.update),
