@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import { string } from "joi";
 import mongoose from "mongoose";
 import { zamowienieModel } from "../models/ZamowienieModel";
 
@@ -44,6 +45,16 @@ const readAll = (req: Request, res: Response, next: NextFunction) => {
     .catch((error) => res.status(500).json({ error }));
 };
 
+const filter = (req: Request, res: Response, next: NextFunction) => {
+  var filterby = req.body.FilterBy;
+  var filter = req.body.Filter;
+  var query = filterby + ": " + filter;
+  return zamowienieModel
+    .find({ query })
+    .then((zamowienies) => res.status(200).json({ zamowienies }))
+    .catch((error) => res.status(500).json({ error }));
+};
+
 const updateZamowienie = (req: Request, res: Response, next: NextFunction) => {
   const zamowienieId = req.params.zamowienieId;
 
@@ -81,6 +92,7 @@ export default {
   createZamowienie,
   readZamowienie,
   readAll,
+  filter,
   updateZamowienie,
   deleteZamowienie,
 };

@@ -13,8 +13,8 @@ export interface IRezerwacjaModel extends IRezerwacja, Document {}
 const RezerwacjaSchema = new Schema<IRezerwacja>(
   {
     Table: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Stolik",
+      type: Schema.Types.ObjectId,
+      ref: "stolikModel",
       required: true,
       validate: {
         validator: async function (value: mongoose.Schema.Types.ObjectId) {

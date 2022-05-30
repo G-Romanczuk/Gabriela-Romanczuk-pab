@@ -9,7 +9,6 @@ const createRezerwacja = (req: Request, res: Response, next: NextFunction) => {
   const client = req.body.Client;
 
   const rezerwacja = new rezerwacjaModel({
-    _id: new mongoose.Types.ObjectId(),
     Table: table,
     Start: start,
     End: end,
