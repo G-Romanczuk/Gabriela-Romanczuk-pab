@@ -55,7 +55,7 @@ const StartServer = () => {
   app.use("/produkt", produktRoutes);
   app.use("/rezerwacja", rezerwacjaRoutes);
   app.use("/zamowienie", zamowienieRoutes);
-
+  // change
   /** Healthcheck */
   app.get("/", (req, res, next) => res.status(200).json({ hello: "world" }));
 

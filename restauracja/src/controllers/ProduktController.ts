@@ -47,7 +47,6 @@ const sort = (req: Request, res: Response, next: NextFunction) => {
   const sort = req.params.sort;
 
   switch (sort.toLocaleLowerCase()) {
-    default:
     case "desc":
       switch (sortby.toLocaleLowerCase()) {
         case "name":
@@ -104,12 +103,6 @@ const sort = (req: Request, res: Response, next: NextFunction) => {
       }
     }
   }
-
-  return produktModel
-    .find()
-    .sort({ Name: 1 })
-    .then((produkts) => res.status(200).json({ produkts }))
-    .catch((error) => res.status(500).json({ error }));
 };
 
 const updateProdukt = (req: Request, res: Response, next: NextFunction) => {
