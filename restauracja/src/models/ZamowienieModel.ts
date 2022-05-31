@@ -5,7 +5,7 @@ import { danieModel } from "./DanieModel";
 import { number } from "joi";
 export interface IZamowienie {
   Employee: mongoose.Schema.Types.ObjectId;
-  Meal: mongoose.Schema.Types.ObjectId;
+  Meal: [mongoose.Schema.Types.ObjectId];
   Status: string;
   Table: mongoose.Schema.Types.ObjectId;
   Price: number;
@@ -32,11 +32,11 @@ const ZamowienieSchema = new Schema<IZamowienie>(
       },
     },
     Meal: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: [mongoose.Schema.Types.ObjectId],
       ref: "Danie",
       required: true,
       validate: {
-        validator: async function (value: mongoose.Schema.Types.ObjectId) {
+        validator: async function (value: [mongoose.Schema.Types.ObjectId]) {
           const table = await danieModel
             .find()
             .where("_id")

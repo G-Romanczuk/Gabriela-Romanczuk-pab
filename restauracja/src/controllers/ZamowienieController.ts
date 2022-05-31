@@ -1,19 +1,38 @@
 import { NextFunction, Request, Response } from "express";
 import { string } from "joi";
-import mongoose from "mongoose";
+import mongoose, { ObjectId } from "mongoose";
+import { danieModel } from "../models/DanieModel";
 import { zamowienieModel } from "../models/ZamowienieModel";
 
-const createZamowienie = (req: Request, res: Response, next: NextFunction) => {
+const createZamowienie = async (req: Request, res: Response, next: NextFunction) => {
   const employee = req.body.Employee;
   const meal = req.body.Meal;
   const status = req.body.Status;
   const table = req.body.Table;
-  const price = req.body.Price;
+  let price = req.body.Price;
+  
+  let calculatedPrice: number = 0
+	let mealArray = []
+	if (meal) {
+		mealArray = meal.replace(':', ',').replace(';', ',').replace('.', ',').split(',')
+    console.log(mealArray);
+		for (const mealId of mealArray) {
+      console.log(mealId);
+			const meal = await danieModel.findById(mealId as unknown as ObjectId)
+			if (meal) {
+				const price = meal.Price
+				if (price) calculatedPrice += price
+			}
+		}
+	}
+	if (!price) price = calculatedPrice
+
+
 
   const zamowienie = new zamowienieModel({
     _id: new mongoose.Types.ObjectId(),
     Employee: employee,
-    Meal: meal,
+    Meal: mealArray,
     Status: status,
     Table: table,
     Price: price,
@@ -45,12 +64,20 @@ const readAll = (req: Request, res: Response, next: NextFunction) => {
     .catch((error) => res.status(500).json({ error }));
 };
 
-const filter = (req: Request, res: Response, next: NextFunction) => {
-  var filterby = req.body.FilterBy;
-  var filter = req.body.Filter;
-  var query = filterby + ": " + filter;
+const filterEmployee = (req: Request, res: Response, next: NextFunction) => {
+  var EmployeeId = req.params.EmployeeId
+  console.log(EmployeeId);
   return zamowienieModel
-    .find({ query })
+    .find({ Employee: EmployeeId })
+    .then((zamowienies) => res.status(200).json({ zamowienies }))
+    .catch((error) => res.status(500).json({ error }));
+};
+
+const filterTable = (req: Request, res: Response, next: NextFunction) => {
+  var TableId = req.params.TableId
+  console.log(TableId);
+  return zamowienieModel
+    .find({ Table: TableId })
     .then((zamowienies) => res.status(200).json({ zamowienies }))
     .catch((error) => res.status(500).json({ error }));
 };
@@ -92,7 +119,8 @@ export default {
   createZamowienie,
   readZamowienie,
   readAll,
-  filter,
+  filterEmployee,
+  filterTable,
   updateZamowienie,
   deleteZamowienie,
 };

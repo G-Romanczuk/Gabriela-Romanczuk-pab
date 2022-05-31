@@ -4,12 +4,12 @@ import { Schemas, ValidateJoi } from "../middleware/Joi";
 const rezerwacjaRoutes = require("express").Router();
 
 rezerwacjaRoutes
-  .post("/create", controller.createRezerwacja)
+  .post("/create", ValidateJoi(Schemas.rezerwacja.create),controller.createRezerwacja)
   .get("/get/:rezerwacjaId", controller.readRezerwacja)
   .get("/get", controller.readAll)
   .patch(
     "/update/:rezerwacjaId",
-    //   ValidateJoi(Schemas.rezerwacja.update),
+     ValidateJoi(Schemas.rezerwacja.update),
     controller.updateRezerwacja
   )
   .delete("/delete/:rezerwacjaId", controller.deleteRezerwacja);

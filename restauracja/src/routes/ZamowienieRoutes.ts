@@ -11,6 +11,8 @@ zamowienieRoutes
   )
   .get("/get/:zamowienieId", controller.readZamowienie)
   .get("/get", controller.readAll)
+  .get("/filterEmployee/:EmployeeId", controller.filterEmployee)
+  .get("/filterTable/:TableId", controller.filterTable)
   .patch(
     "/update/:zamowienieId",
     ValidateJoi(Schemas.zamowienie.update),

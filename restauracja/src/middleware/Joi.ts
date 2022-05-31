@@ -8,6 +8,7 @@ import { IRezerwacja } from "../models/RezerwacjaModel";
 import { IDanie } from "../models/DanieModel";
 import { IProdukt } from "../models/ProduktModel";
 import { IZamowienie } from "../models/ZamowienieModel";
+import { IZapotrzebowanie } from "../models/ZapotrzebowanieModel";
 
 export const ValidateJoi = (schema: ObjectSchema) => {
   return async (req: Request, res: Response, next: NextFunction) => {
@@ -66,20 +67,20 @@ export const Schemas = {
       Status: Joi.string().required(),
     }),
   },
-  // rezerwacja: {
-  //   create: Joi.object<IRezerwacja>({
-  //     Table: Joi.string().required(),
-  //     Start: Joi.date().required(),
-  //     End: Joi.date().required(),
-  //     Client: Joi.string().required(),
-  //   }),
-  //   update: Joi.object<IRezerwacja>({
-  //     Table: Joi.string().required(),
-  //     Start: Joi.date().required(),
-  //     End: Joi.date().required(),
-  //     Client: Joi.string().required(),
-  //   }),
-  // },
+  rezerwacja: {
+    create: Joi.object<IRezerwacja>({
+      Table: Joi.string().required(),
+      Start: Joi.date().required(),
+      End: Joi.date().required(),
+      Client: Joi.string().required(),
+    }),
+    update: Joi.object<IRezerwacja>({
+      Table: Joi.string().required(),
+      Start: Joi.date().required(),
+      End: Joi.date().required(),
+      Client: Joi.string().required(),
+    }),
+  },
   danie: {
     create: Joi.object<IDanie>({
       Name: Joi.string().required(),
@@ -109,17 +110,31 @@ export const Schemas = {
   zamowienie: {
     create: Joi.object<IZamowienie>({
       Employee: Joi.string().required(),
-      Meal: Joi.string().required(),
+       Meal: Joi.string().required(),
       Status: Joi.string().required(),
       Table: Joi.string().required(),
       Price: Joi.number().required(),
     }),
     update: Joi.object<IZamowienie>({
       Employee: Joi.string().required(),
-      Meal: Joi.string().required(),
+       Meal: Joi.string().required(),
       Status: Joi.string().required(),
       Table: Joi.string().required(),
       Price: Joi.number().required(),
+    }),
+  },
+  zapotrzebowanie: {
+    create: Joi.object<IZapotrzebowanie>({
+      Product: Joi.string().required(),
+      Name: Joi.string().required(),
+      Quantity: Joi.number().required(),
+      Measure: Joi.string().required(),
+    }),
+    update: Joi.object<IZapotrzebowanie>({
+      Product: Joi.string().required(),
+      Name: Joi.string().required(),
+      Quantity: Joi.number().required(),
+      Measure: Joi.string().required(),
     }),
   },
 };
