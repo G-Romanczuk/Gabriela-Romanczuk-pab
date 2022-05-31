@@ -44,6 +44,26 @@ const createZamowienie = async (req: Request, res: Response, next: NextFunction)
     .catch((error) => res.status(500).json({ error }));
 };
 
+const updateZamowienie = (req: Request, res: Response, next: NextFunction) => {
+  const zamowienieId = req.params.zamowienieId;
+
+  return zamowienieModel
+    .findById(zamowienieId)
+    .then((zamowienie) => {
+      if (zamowienie) {
+        zamowienie.set(req.body);
+
+        return zamowienie
+          .save()
+          .then((zamowienie) => res.status(201).json({ zamowienie }))
+          .catch((error) => res.status(500).json({ error }));
+      } else {
+        return res.status(404).json({ message: "not found" });
+      }
+    })
+    .catch((error) => res.status(500).json({ error }));
+};
+
 const readZamowienie = (req: Request, res: Response, next: NextFunction) => {
   const zamowienieId = req.params.zamowienieId;
 
@@ -82,25 +102,7 @@ const filterTable = (req: Request, res: Response, next: NextFunction) => {
     .catch((error) => res.status(500).json({ error }));
 };
 
-const updateZamowienie = (req: Request, res: Response, next: NextFunction) => {
-  const zamowienieId = req.params.zamowienieId;
 
-  return zamowienieModel
-    .findById(zamowienieId)
-    .then((zamowienie) => {
-      if (zamowienie) {
-        zamowienie.set(req.body);
-
-        return zamowienie
-          .save()
-          .then((zamowienie) => res.status(201).json({ zamowienie }))
-          .catch((error) => res.status(500).json({ error }));
-      } else {
-        return res.status(404).json({ message: "not found" });
-      }
-    })
-    .catch((error) => res.status(500).json({ error }));
-};
 
 const deleteZamowienie = (req: Request, res: Response, next: NextFunction) => {
   const zamowienieId = req.params.zamowienieId;
