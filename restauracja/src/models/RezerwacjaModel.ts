@@ -18,12 +18,12 @@ const RezerwacjaSchema = new Schema<IRezerwacja>(
       required: true,
       validate: {
         validator: async function (value: mongoose.Schema.Types.ObjectId) {
-          const table = await stolikModel
+          const stolik = await stolikModel
             .find()
             .where("_id")
             .equals(value)
             .exec();
-          if (table.length == 0) throw new Error("Nie ma takiego stolika!");
+          if (stolik.length == 0) throw new Error("Nie ma takiego stolika!");
         },
       },
     },

@@ -66,20 +66,20 @@ export const Schemas = {
       Status: Joi.string().required(),
     }),
   },
-  rezerwacja: {
-    create: Joi.object<IRezerwacja>({
-      Table: Joi.string().required(),
-      Start: Joi.date().required(),
-      End: Joi.date().required(),
-      Client: Joi.string().required(),
-    }),
-    update: Joi.object<IRezerwacja>({
-      Table: Joi.string().required(),
-      Start: Joi.date().required(),
-      End: Joi.date().required(),
-      Client: Joi.string().required(),
-    }),
-  },
+  // rezerwacja: {
+  //   create: Joi.object<IRezerwacja>({
+  //     Table: Joi.string().required(),
+  //     Start: Joi.date().required(),
+  //     End: Joi.date().required(),
+  //     Client: Joi.string().required(),
+  //   }),
+  //   update: Joi.object<IRezerwacja>({
+  //     Table: Joi.string().required(),
+  //     Start: Joi.date().required(),
+  //     End: Joi.date().required(),
+  //     Client: Joi.string().required(),
+  //   }),
+  // },
   danie: {
     create: Joi.object<IDanie>({
       Name: Joi.string().required(),
